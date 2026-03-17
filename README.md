@@ -1,103 +1,86 @@
-# 🎓 Edu - Educador Financeiro Inteligente
 
-> Agente de IA Generativa que ensina conceitos de finanças pessoais de forma simples e personalizada, usando os próprios dados do cliente como exemplos práticos.
+# Documentação do Agente
 
-## 💡 O Que é o Edu?
+## Caso de Uso
 
-O Edu é um educador financeiro que **ensina**, não recomenda. Ele explica conceitos como reserva de emergência, tipos de investimentos e análise de gastos usando uma abordagem didática e exemplos concretos baseados no perfil do cliente.
+### Problema
+> Qual problema financeiro seu agente resolve?
 
-**O que o Edu faz:**
-- ✅ Explica conceitos financeiros de forma simples
-- ✅ Usa dados do cliente como exemplos práticos
-- ✅ Responde dúvidas sobre produtos financeiros
-- ✅ Analisa padrões de gastos de forma educativa
+Muitas pessoas ´desejam adentrar no universo dos investimentos, mas não sabem como começar, como analisar o mercado, o tipo de investidor que é etc.
 
-**O que o Edu NÃO faz:**
-- ❌ Não recomenda investimentos específicos
-- ❌ Não acessa dados bancários sensíveis
-- ❌ Não substitui um profissional certificado
+### Solução
+> Como o agente resolve esse problema de forma proativa?
 
-## 🏗️ Arquitetura
+Um agente educativo que explica conceitos financeiros relacionados a investimentos, sugerindo investimentos com base no perfil de investidor do usuário.
+
+### Público-Alvo
+> Quem vai usar esse agente?
+
+Investidores iniciantes.
+
+---
+
+## Persona e Tom de Voz
+
+### Nome do Agente
+GuU (Educador de investimentos)
+
+### Personalidade
+> Como o agente se comporta? (ex: consultivo, direto, educativo)
+
+- Educativo e paciente
+- Usa exemplos práticos
+
+
+### Tom de Comunicação
+> Formal, informal, técnico, acessível?
+
+Informal, acessível e didático, como um professor particular.
+
+### Exemplos de Linguagem
+- Saudação: "Oi! Sou o GuU, seu educador de negócios. Como posso te ajudar a aprender hoje?"
+- Confirmação: "Deixa eu te explicar isso de um jeito simples, usando uma analogia..."
+
+
+---
+
+## Arquitetura
+
+### Diagrama
 
 ```mermaid
 flowchart TD
-    A[Usuário] --> B[Streamlit]
-    B --> C[Ollama - LLM Local]
+    A[Usuário] --> B["Streamlit (Interface Visual)"]
+    B --> C[LLM]
     C --> D[Base de Conhecimento]
     D --> C
-    C --> E[Resposta Educativa]
+    C --> E[Validação]
+    E --> F[Resposta]
 ```
 
-**Stack:**
-- Interface: Streamlit
-- LLM: Ollama (modelo local `gpt-oss`)
-- Dados: JSON/CSV mockados
+### Componentes
 
-## 📁 Estrutura do Projeto
+| Componente | Descrição |
+|------------|-----------|
+| Interface | [Streamlit](https://streamlit.io/) |
+| LLM | Ollama (local) |
+| Base de Conhecimento | JSON/CSV mockados na pasta `data` | Webscrapping dinâmico|
 
-```
-├── data/                          # Base de conhecimento
-│   ├── perfil_investidor.json     # Perfil do cliente
-│   ├── transacoes.csv             # Histórico financeiro
-│   ├── historico_atendimento.csv  # Interações anteriores
-│   └── produtos_financeiros.json  # Produtos para ensino
-│
-├── docs/                          # Documentação completa
-│   ├── 01-documentacao-agente.md  # Caso de uso e persona
-│   ├── 02-base-conhecimento.md    # Estratégia de dados
-│   ├── 03-prompts.md              # System prompt e exemplos
-│   ├── 04-metricas.md             # Avaliação de qualidade
-│   └── 05-pitch.md                # Apresentação do projeto
-│
-└── src/
-    └── app.py                     # Aplicação Streamlit
-```
 
-## 🚀 Como Executar
+---
 
-### 1. Instalar Ollama
+## Segurança e Anti-Alucinação
 
-```bash
-# Baixar em: ollama.com
-ollama pull gpt-oss
-ollama serve
-```
+### Estratégias Adotadas
 
-### 2. Instalar Dependências
+- [X] Só usa dados fornecidos no contexto
+- [X] Se necessário, recomenda investimentos específicos
+- [X] Admite quando não sabe algo
+- [X] Foca em educar e em aconselhar
 
-```bash
-pip install streamlit pandas requests
-```
+### Limitações Declaradas
+> O que o agente NÃO faz?
 
-### 3. Rodar o Edu
-
-```bash
-streamlit run src/app.py
-```
-
-## 🎯 Exemplo de Uso
-
-**Pergunta:** "O que é CDI?"  
-**Edu:** "CDI é uma taxa de referência usada pelos bancos. Quando um investimento rende '100% do CDI', significa que ele acompanha essa taxa. Hoje o CDI está próximo da Selic. Quer que eu explique a diferença entre os dois?"
-
-**Pergunta:** "Onde estou gastando mais?"  
-**Edu:** "Olhando suas transações de outubro, sua maior despesa é moradia (R$ 1.380), seguida de alimentação (R$ 570). Juntas, representam quase 80% dos seus gastos. Isso é bem comum! Quer que eu explique algumas estratégias de organização?"
-
-## 📊 Métricas de Avaliação
-
-| Métrica | Objetivo |
-|---------|----------|
-| **Assertividade** | O agente responde o que foi perguntado? |
-| **Segurança** | Evita inventar informações (anti-alucinação)? |
-| **Coerência** | A resposta é adequada ao perfil do cliente? |
-
-## 🎬 Diferenciais
-
-- **Personalização:** Usa os dados do próprio cliente nos exemplos
-- **100% Local:** Roda com Ollama, sem enviar dados para APIs externas
-- **Educativo:** Foco em ensinar, não em vender produtos
-- **Seguro:** Estratégias de anti-alucinação documentadas
-
-## 📝 Documentação Completa
-
-Toda a documentação técnica, estratégias de prompt e casos de teste estão disponíveis na pasta [`docs/`](./docs/).
+- NÃO faz recomendação de investimento
+- NÃO acessa dados bancários sensiveis (como senhas etc)
+- NÃO substitui um profissional certificado
