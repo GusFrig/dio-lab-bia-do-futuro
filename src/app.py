@@ -2,42 +2,62 @@ import json
 import pandas as pd
 import requests
 import streamlit as st
+from PyPDF2 import PdfWriter
 
 # ============ CONFIGURAÇÃO ============
 OLLAMA_URL = "http://localhost:11434/api/generate"
 MODELO = "gpt-oss"
 
+# ============ Leitor de PDF ============
+# Função para ler o conteúdo de um PDF
+def ler_pdf(caminho_arquivo):
+    # Abre o arquivo PDF em modo binário de leitura
+    with open(caminho_arquivo, 'rb') as arquivo:
+        # Cria um objeto Reader
+        leitor_pdf = PyPDF2.PdfReader(arquivo)
+        
+        # Obtém o número total de páginas
+        num_paginas = len(leitor_pdf.pages)
+        print(f"O PDF tem {num_paginas} páginas.
+")
+        
+        # Extrai o texto de cada página
+        conteudo = ""
+        for i in range(num_paginas):
+            pagina = leitor_pdf.pages[i]
+            texto = pagina.extract_text()
+            conteudo += f"--- Página {i+1} ---
+{texto}
+"
+        
+        return conteudo
+
 # ============ CARREGAR DADOS ============
-perfil = json.load(open('./data/perfil_investidor.json'))
-transacoes = pd.read_csv('./data/transacoes.csv')
-historico = pd.read_csv('./data/historico_atendimento.csv')
-produtos = json.load(open('./data/produtos_financeiros.json'))
-
-# ============ MONTAR CONTEXTO ============
-contexto = f"""
-CLIENTE: {perfil['nome']}, {perfil['idade']} anos, perfil {perfil['perfil_investidor']}
-OBJETIVO: {perfil['objetivo_principal']}
-PATRIMÔNIO: R$ {perfil['patrimonio_total']} | RESERVA: R$ {perfil['reserva_emergencia_atual']}
-
-TRANSAÇÕES RECENTES:
-{transacoes.to_string(index=False)}
-
-ATENDIMENTOS ANTERIORES:
-{historico.to_string(index=False)}
-
-PRODUTOS DISPONÍVEIS:
-{json.dumps(produtos, indent=2, ensure_ascii=False)}
-"""
+caminho_1 = "data/07.-Investimento-en-a-es-para-iniciantes-Autor-Fernando-Da-Silva-Franco.pdf"
+texto_pdf_1 = ler_pdf(caminho_1)
+caminho_2 = "data/13.-Introdu-o-aos-Investimentos-Autor-Portal-do-Investidor.pdf"
+texto_pdf_2 = ler_pdf(caminho_2)
+caminho_3 = "data/21.-Guia-legal-para-o-investidor-estrangeiro-no-Brasil-Autor-Invest-Export-Brasil.pdf"
+texto_pdf_3 = ler_pdf(caminho_3)
+caminho_4 = "data/An-lise-de-Investimentos-V-rios-Autores (1).pdf"
+texto_pdf_4 = ler_pdf(caminho_4)
+caminho_5 = "data/Apostila-Investimentos-Harion-Camargo.pdf"
+texto_pdf_5 ler_pdf(caminho_5)
+caminho_6 = "data/Da-Pequena-Empresa-ao-Mercado-de-Capitais-V-rios-Autores.pdf"
+texto_pdf_6 = ler_pdf(caminho_6)
+caminho_7 = "data/Ebook-Guia-de-Investimentos-para-Iniciantes.pdf"
+texto_pdf_7 = ler_pdf(caminho_7)
+historico_investimentos = pd.read_csv('.data/Tendências da Bolsa de Valores e Ações em Destaque.csv')
+perfil_investidor = "https://investimentos.com.br/artigos/perfil-de-investidor/"
 
 # ============ SYSTEM PROMPT ============
-SYSTEM_PROMPT = """Você é o Edu, um educador financeiro amigável e didático.
+SYSTEM_PROMPT = """Você é o GuU, um educador financeiro amigável e didático.
 
 OBJETIVO:
-Ensinar conceitos de finanças pessoais de forma simples, usando os dados do cliente como exemplos práticos.
+Ensinar conceitos básicos de investimentos, construir perfils de investimentos e indicar investimentos com base em perfis.
 
 REGRAS:
-- NUNCA recomende investimentos específicos, apenas explique como funcionam;
-- JAMAIS responda a perguntas fora do tema ensino de finanças pessoais. 
+- JAMAIS responda a perguntas fora do tema ensino de investimentos. 
   Quando ocorrer, responda lembrando o seu papel de educador financeiro;
 - Use os dados fornecidos para dar exemplos personalizados;
 - Linguagem simples, como se explicasse para um amigo;
@@ -52,7 +72,7 @@ def perguntar(msg):
     {SYSTEM_PROMPT}
 
     CONTEXTO DO CLIENTE:
-    {contexto}
+    
 
     Pergunta: {msg}"""
 
@@ -60,7 +80,7 @@ def perguntar(msg):
     return r.json()['response']
 
 # ============ INTERFACE ============
-st.title("🎓 Edu, o Educador Financeiro")
+st.title("🎓 GuU, o Educador Financeiro")
 
 if pergunta := st.chat_input("Sua dúvida sobre finanças..."):
     st.chat_message("user").write(pergunta)
