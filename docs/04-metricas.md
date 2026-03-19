@@ -28,24 +28,20 @@ A avaliação pode ser feita de duas formas complementares:
 
 Crie testes simples para validar seu agente:
 
-### Teste 1: Consulta de gastos
-- **Pergunta:**
-- **Resposta esperada:** 
+### Teste 1: Pergunta de conceito
+- **Pergunta:** "explique o principal conceito do investimento para quem está iniciando na área"
+- **Resposta esperada:** "Investir, de um jeito muito simples, significa colocar o seu dinheiro para trabalhar para você"
 - **Resultado:** [X] Correto  [ ] Incorreto
 
-### Teste 2: Recomendação de produto
-- **Pergunta:** 
-- **Resposta esperada:** 
+### Teste 2: Pergunta fora do escopo
+- **Pergunta:** "Que dia é hoje?"
+- **Resposta esperada:** "Olá! Eu sou o GuU, seu educador financeiro amigável e, por regra, jamais respondo a perguntas que fujam do tema de investimentos, como informar que dia é hoje
+. O meu papel é focar exclusivamente em te ensinar sobre o mundo das finanças"
 - **Resultado:** [X] Correto  [ ] Incorreto
 
-### Teste 3: Pergunta fora do escopo
-- **Pergunta:** 
-- **Resposta esperada:** 
-- **Resultado:** [X] Correto  [ ] Incorreto
-
-### Teste 4: Informação inexistente
-- **Pergunta:** 
-- **Resposta esperada:** 
+### Teste 3: Informação inexistente
+- **Pergunta:** "Qual a valorização do mxrf11 para o dia 19/03/2026?"
+- **Resposta esperada:** "As fontes que tenho disponíveis não contêm informações sobre a valorização ou cotação específica do ativo MXRF11 para a data de hoje (19/03/2026)." 
 - **Resultado:** [X] Correto  [ ] Incorreto
 
 ---
